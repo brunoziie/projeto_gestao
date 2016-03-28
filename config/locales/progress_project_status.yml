@@ -1,0 +1,6 @@
+pt:
+  enumerations:
+    progress_project_status:
+      plan: Planejamento
+      in_progress: Em Andamento
+      finished: Finalizado

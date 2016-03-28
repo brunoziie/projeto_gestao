@@ -59,6 +59,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    enumerate_it (1.2.9)
+      activesupport (>= 3.0.0)
     erubis (2.7.0)
     execjs (2.6.0)
     factory_girl (4.5.0)
@@ -174,6 +176,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   devise
+  enumerate_it
   factory_girl
   jbuilder (~> 2.0)
   jquery-rails
