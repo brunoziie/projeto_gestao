@@ -1,0 +1,11 @@
+<h1><%= @project.name %></h1>
+<p><%= @project.description %></p>
+
+<% if policy(Project).edit? %>
+  <p><%= link_to 'Editar Projeto', edit_project_path(@project) %></p>
+<% end %>
+
+<% if policy(Project).destroy? %>
+  <p><%= link_to 'Apagar Projeto', project_path(@project), method: :delete %></p>
+<% end %>
+

@@ -10,6 +10,8 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
+
+    authorize @project
   end
 
   def create
@@ -20,9 +22,12 @@ class ProjectsController < ApplicationController
     else
       render 'new'
     end
+
+    authorize @project
   end
 
   def edit
+    authorize @project
   end
 
   def update
@@ -32,6 +37,8 @@ class ProjectsController < ApplicationController
     else
       render 'edit'
     end
+
+    authorize @project
   end
 
   def destroy
@@ -41,6 +48,8 @@ class ProjectsController < ApplicationController
     else
       render @project
     end
+
+    authorize @project
   end
 
   private

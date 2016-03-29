@@ -1,0 +1,12 @@
+<h1>Projetos</h1>
+
+<% @projects.each do |project| %>
+  <ul>
+    <li><%= link_to project.name, project_path(project) %></li>
+    <li><%= project.description %></li>
+  </ul>
+<% end %>
+
+<% if policy(Project).new? %>
+  <p><%= link_to 'Criar Projeto', new_project_path %></p>
+<% end %>

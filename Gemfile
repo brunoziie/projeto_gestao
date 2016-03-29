@@ -31,6 +31,10 @@ gem 'enumerate_it'
 
 gem 'simple_form'
 
+gem 'foundation-rails'
+
+gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'rails-4-x'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
