@@ -6,6 +6,16 @@
 <% end %>
 
 <% if policy(Project).destroy? %>
-  <p><%= link_to 'Apagar Projeto', project_path(@project), method: :delete %></p>
+  <p><%= link_to 'Apagar Projeto', project_path(@project), method: :delete, data: { confirm: "Are you sure?"} %></p>
 <% end %>
 
+<h2>Sprints:</h2>
+<% @sprints.each do |sprint| %>
+  <ul>
+    <li><%= link_to "SPRINT ##{sprint.number.to_s}", project_sprint_path(project_id: @project, id: sprint.id) %> -> (<%= sprint.init_date.strftime("%d/%m/%Y") %> a <%= sprint.end_date.strftime("%d/%m/%Y") %>) -> <%= sprint.status_humanize %> <%= "ATRASADA" if sprint.late?  %> </li>
+  </ul>
+<% end %>
+
+<% if policy(Project).edit? %>
+  <%= link_to 'Criar Sprint', new_project_sprint_path(@project) %>
+<% end %>

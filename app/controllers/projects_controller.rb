@@ -6,6 +6,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @sprints = @project.sprints.order(:number)
   end
 
   def new
@@ -52,7 +53,7 @@ class ProjectsController < ApplicationController
     authorize @project
   end
 
-  private
+ private
     def load_project
       @project = Project.find(params[:id])
     end

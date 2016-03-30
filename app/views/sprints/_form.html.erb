@@ -1,0 +1,7 @@
+<%= simple_form_for [@project, @sprint] do |f| %>
+    <%= f.input :description %>
+    <%= f.input :init_date, as: :date %>
+    <%= f.input :end_date, as: :date %>
+    <%= f.submit %>
+<% end %>
+

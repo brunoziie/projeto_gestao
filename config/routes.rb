@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'projects#index'
 
   resources :projects do
-    resources :sprints do
+    resources :sprints, except: :index do
 
     end
   end

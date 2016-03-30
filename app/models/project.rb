@@ -4,4 +4,6 @@ class Project < ActiveRecord::Base
   has_enumeration_for :status, with: ProgressProjectStatus, create_helpers: true
 
   validates :name, :description, presence: true
+
+  has_many :sprints
 end
