@@ -6,6 +6,8 @@ class Sprint < ActiveRecord::Base
 
   belongs_to :project
 
+  has_many :activities, dependent: :destroy
+
   has_enumeration_for :status, with: ProgressSprintStatus, create_helpers: true
 
   def start_sprint
@@ -36,6 +38,10 @@ class Sprint < ActiveRecord::Base
         false
       end
     end
+  end
+
+  def sprint_name
+    "#{number} - #{description}"
   end
 
 private

@@ -5,6 +5,8 @@ class Activity < ActiveRecord::Base
   belongs_to :sprint
   belongs_to :project
 
+  has_many :historicals, dependent: :destroy
+
   has_enumeration_for :status, with: ProgressActivityStatus, create_helpers: true
 end
 

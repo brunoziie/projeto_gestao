@@ -1,0 +1,7 @@
+<%= simple_form_for [@project, @activity] do |f| %>
+  <%= f.input :sprint_id, :collection => @sprints, label_method: :sprint_name, value_method: :id, label: "Sprint", include_blank: "Atividade em Backlog" %>
+    <%= f.input :name %>
+    <%= f.input :description %>
+    <%= f.button :submit %>
+<% end %>
+

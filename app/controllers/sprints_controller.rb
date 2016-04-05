@@ -1,7 +1,9 @@
 class SprintsController < ApplicationController
   before_action :load_sprint, only: [:edit, :show, :update, :destroy]
 
-  def show; end
+  def show
+    @activities = @sprint.activities
+  end
 
   def new
     load_project

@@ -5,5 +5,10 @@ class Project < ActiveRecord::Base
 
   validates :name, :description, presence: true
 
-  has_many :sprints
+  has_many :sprints, dependent: :destroy
+  has_many :activities, dependent: :destroy
+
+  def backlog_activities
+    activities.where(sprint: nil)
+  end
 end

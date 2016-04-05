@@ -1,0 +1,9 @@
+<h1>Atividades</h1>
+
+<p><%= link_to 'Criar Atividade', new_project_activity_path(@project) %></p>
+
+<ul>
+  <% @activities.each do |activity| %>
+    <p><%= link_to activity.name, project_activity_path(@project, activity) %></p>
+  <% end %>
+</ul>

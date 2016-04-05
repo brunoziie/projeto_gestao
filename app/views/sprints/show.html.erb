@@ -18,3 +18,15 @@
   <p><%= link_to 'Apagar Sprint', project_sprint_path(@project, @sprint), method: :delete, data: { confirm: "Você tem Certeza?"} %></p>
 <% end %>
 
+<% if policy(Project).edit? %>
+  <p><%= link_to 'Criar Atividade', new_project_activity_path(@project, sprint_id: @sprint.id) %></p>
+<% end %>
+
+<h2>Atividades</h2>
+
+<ul>
+  <% @activities.each do |activity| %>
+    <li><%= link_to activity.name, project_activity_path(@project, activity) %></li>
+  <% end %>
+</ul>
+
