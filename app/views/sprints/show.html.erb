@@ -7,11 +7,11 @@
 <% end %>
 
 <% if @sprint.scheduled? and policy(Project).edit? %>
-  <p><%= link_to 'Iniciar Sprint', root_path %></p>
+  <p><%= link_to 'Iniciar Sprint', project_sprint_start_sprint_index_path(@project, @sprint) %></p>
 <% end %>
 
 <% if @sprint.doing? and policy(Project).edit? %>
-  <p><%= link_to 'Finalizar Sprint', root_path %></p>
+  <p><%= link_to 'Finalizar Sprint', project_sprint_finish_sprint_index_path(@project, @sprint) %></p>
 <% end %>
 
 <% if policy(Project).edit? %>

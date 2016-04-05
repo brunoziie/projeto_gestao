@@ -5,7 +5,10 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :sprints, except: :index do
-
+      resources :start_sprint, only: :index
+      resources :finish_sprint, only: :index
     end
+
+    resources :activities
   end
 end

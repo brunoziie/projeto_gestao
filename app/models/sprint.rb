@@ -9,31 +9,28 @@ class Sprint < ActiveRecord::Base
   has_enumeration_for :status, with: ProgressSprintStatus, create_helpers: true
 
   def start_sprint
-    self.update_attribute(:status, ProgressSprintStatus::DOING)
-    #TODO colocar datetime em que foi iniciado
+    self.update_attributes(status: ProgressSprintStatus::DOING, started_date: Date.today)
   end
 
   def finish_sprint
-    self.update_attribute(:status, ProgressSprintStatus::FINISHED)
-    #TODO colocar datetime em que foi finalizado
+    self.update_attributes(status: ProgressSprintStatus::FINISHED, finished_date: Date.today)
   end
 
   def late?
     if self.status == ProgressSprintStatus::SCHEDULED
-      if self.init_date <= Date.today
+      if self.init_date < Date.today
         true
       else
         false
       end
     elsif self.status == ProgressSprintStatus::FINISHED
-      #TODO REVER REGRA
-      if self.end_date < Date.today
+      if self.end_date < self.finished_date
         true
       else
         false
       end
     else
-      if self.end_date < Date.today
+      if self.end_date < Date.today || self.init_date < self.started_date
         true
       else
         false
@@ -43,8 +40,8 @@ class Sprint < ActiveRecord::Base
 
 private
   def increment_number
-    maximum = Sprint.maximum(:number)
-    maximum.nil? ? self.number = 1 : self.number = (maximum += 1)
+    maximum = self.project.sprints.maximum(:number)
+      maximum.nil? ? self.number = 1 : self.number = (maximum += 1)
     self.save
   end
 
