@@ -16,4 +16,12 @@ class ProjectPolicy < ApplicationPolicy
   def destroy?
     @user.manager?
   end
+
+  def index?
+    @user.manager?
+  end
+
+  def show?
+    @user.manager? or @user.projects.include?(record)
+  end
 end

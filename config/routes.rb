@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     end
 
     resources :activities
+
+    resources :participations
   end
 end

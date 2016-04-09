@@ -2,11 +2,17 @@ class ProjectsController < ApplicationController
   before_action :load_project, only: [:edit, :show, :update, :destroy]
 
   def index
-    @projects = Project.all
+    if current_user.manager?
+      @projects = Project.all
+    else
+      @projects = current_user.my_projects
+    end
   end
 
   def show
     @sprints = @project.sprints.order(:number)
+
+    authorize @project
   end
 
   def new

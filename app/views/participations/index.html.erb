@@ -1,0 +1,15 @@
+<h1>Participantes</h1>
+
+<h2>Adicionar Participante</h2>
+
+<%= simple_form_for @project, url: project_participations_path, method: :post do |f| %>
+  <%= f.input :id, :collection => @free_users, label_method: :name, value_method: :id, label: "Participante", include_blank: "Escolha o Participante" %>
+  <%= f.button :submit, 'Adicionar' %>
+<% end %>
+
+<ul>
+  <% @project.users.each do |user| %>
+    <li><%= user.name %> - <%= link_to 'Remover', project_participation_path(@project, user), method: :delete %> </li>
+  <% end %>
+</ul>
+
