@@ -3,6 +3,9 @@ class SprintsController < ApplicationController
 
   def show
     @activities = @sprint.activities
+    @todo_activities = @sprint.todo_activities
+    @doing_activities = @sprint.doing_activities
+    @done_activities = @sprint.done_activities
   end
 
   def new

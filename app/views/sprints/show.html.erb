@@ -2,31 +2,54 @@
 
 <p><%= @sprint.status_humanize %> <%= "(Atrasada)" if @sprint.late?%></p>
 
-<% if @sprint.late? %>
-  <p>Atrasada</p>
-<% end %>
-
 <% if @sprint.scheduled? and policy(Project).edit? %>
-  <p><%= link_to 'Iniciar Sprint', project_sprint_start_sprint_index_path(@project, @sprint) %></p>
+  <p><%= link_to 'Iniciar Sprint', project_sprint_start_sprint_index_path(@project, @sprint), class: "button" %></p>
 <% end %>
 
 <% if @sprint.doing? and policy(Project).edit? %>
-  <p><%= link_to 'Finalizar Sprint', project_sprint_finish_sprint_index_path(@project, @sprint) %></p>
+  <p><%= link_to 'Finalizar Sprint', project_sprint_finish_sprint_index_path(@project, @sprint), class: "button" %></p>
 <% end %>
 
 <% if policy(Project).edit? %>
-  <p><%= link_to 'Apagar Sprint', project_sprint_path(@project, @sprint), method: :delete, data: { confirm: "Você tem Certeza?"} %></p>
+  <p><%= link_to 'Apagar Sprint', project_sprint_path(@project, @sprint), method: :delete, data: { confirm: "Você tem Certeza?"}, class: "button" %></p>
 <% end %>
 
 <% if policy(Project).edit? %>
-  <p><%= link_to 'Criar Atividade', new_project_activity_path(@project, sprint_id: @sprint.id) %></p>
+  <p><%= link_to 'Criar Atividade', new_project_activity_path(@project, sprint_id: @sprint.id), class: "button" %></p>
 <% end %>
 
 <h2>Atividades</h2>
 
-<ul>
-  <% @activities.each do |activity| %>
-    <li><%= link_to activity.name, project_activity_path(@project, activity) %></li>
-  <% end %>
-</ul>
+  <div class="grid-block">
+    <table>
+      <tr>
+        <th>TO DO</th>
+      </tr>
+      <% @todo_activities.each do |activity| %>
+        <tr>
+          <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+  <div id="main" class="grid-block">
+    <table>
+      <th>DOING</th>
+      <% @doing_activities.each do |activity| %>
+        <tr>
+          <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+  <div id="main" class="grid-block">
+    <table>
+      <th>DONE</th>
+      <% @done_activities.each do |activity| %>
+        <tr>
+          <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
 

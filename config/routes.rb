@@ -9,7 +9,10 @@ Rails.application.routes.draw do
       resources :finish_sprint, only: :index
     end
 
-    resources :activities
+    resources :activities do
+      resources :start_activity, only: :index
+      resources :finish_activity, only: :index
+    end
 
     resources :participations
   end

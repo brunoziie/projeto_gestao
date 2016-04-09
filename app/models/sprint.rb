@@ -44,6 +44,18 @@ class Sprint < ActiveRecord::Base
     "#{number} - #{description}"
   end
 
+  def todo_activities
+    self.activities.where(status: ProgressActivityStatus::WAITING)
+  end
+
+  def doing_activities
+    self.activities.where(status: ProgressActivityStatus::DOING)
+  end
+
+  def done_activities
+    self.activities.where(status: ProgressActivityStatus::DONE)
+  end
+
 private
   def increment_number
     maximum = self.project.sprints.maximum(:number)

@@ -23,6 +23,8 @@ class ActivitiesController < ApplicationController
       @activity = @project.activities.new(activity_params)
     else
       @activity = @sprint.activities.new(activity_params)
+      @activity.project = @project
+      @activity.status = ProgressActivityStatus::WAITING
     end
 
     if @activity.save
