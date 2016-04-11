@@ -35,6 +35,9 @@ gem 'foundation-rails'
 
 gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'rails-4-x'
 
+gem 'rails_12factor', group: :production
+
+gem 'puma'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
