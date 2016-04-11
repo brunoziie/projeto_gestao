@@ -2,9 +2,12 @@ class FinishActivityController < ApplicationController
   before_action :load_activity, only: [:index]
 
   def index
-    @activity.finish_activity
+    if @activity.finish_activity
+      redirect_to project_activity_path(@project, @activity), :flash => { :success => "Atividade Finalizada com Sucesso!" }
+    else
+      redirect_to project_activity_path(@project, @activity), :flash => { :error => "Você não pode iniciar esta Atividade! A Sprint não está em andamento." }
+    end
 
-    redirect_to project_activity_path(@project, @activity), :flash => { :success => "Atividade Finalizada com Sucesso!" }
   end
 
 private

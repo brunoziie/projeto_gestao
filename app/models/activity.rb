@@ -10,11 +10,19 @@ class Activity < ActiveRecord::Base
   has_enumeration_for :status, with: ProgressActivityStatus, create_helpers: true
 
   def start_activity
-    self.update_attribute(:status, ProgressActivityStatus::DOING)
+    if self.sprint.doing?
+      self.update_attribute(:status, ProgressActivityStatus::DOING)
+    else
+      false
+    end
   end
 
   def finish_activity
-    self.update_attribute(:status, ProgressActivityStatus::DONE)
+    if self.sprint.doing?
+      self.update_attribute(:status, ProgressActivityStatus::DONE)
+    else
+      false
+    end
   end
 
   def reset_activity
