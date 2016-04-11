@@ -1,4 +1,21 @@
-<h1><%= @activity.name %></h1>
+<h1><%= @activity.name %> </h1>
+
+<p><strong>ESTIMATIVA: </strong> <%= @activity.estimate %>min</p>
+
+<% if @activity.doing? %>
+  <p><strong>DURAÇÃO: </strong><%= pretty_doing_duration @activity %></p>
+<% elsif @activity.done?%>
+  <p><strong>DURAÇÃO: </strong><%= pretty_duration @activity %></p>
+<% end %>
+
+<p><strong>DESCRIÇÃO: </strong> <%= @activity.description %></p>
+
+<p><strong>STATUS: </strong> <%= @activity.status_humanize %></p>
+
+
+<% unless @activity.user.blank? %>
+  <p><strong>RESPONSÁVEL: </strong> <%= @activity.user.name %></p>
+<% end %>
 
 <% if @activity.waiting? and @activity.sprint.doing? %>
   <%= link_to 'Iniciar Atividade', project_activity_start_activity_index_path(@project, @activity), class: "button" %>
@@ -8,4 +25,9 @@
   <%= link_to 'Finalizar Atividade', project_activity_finish_activity_index_path(@project, @activity), class: "button"%>
 <% end %>
 
+<ul>
 
+  <% @activity.historicals.each do |histotical| %>
+    <li><%= historical_helper histotical%></li>
+  <% end %>
+</ul>

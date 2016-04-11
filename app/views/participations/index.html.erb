@@ -4,7 +4,7 @@
 
 <%= simple_form_for @project, url: project_participations_path, method: :post do |f| %>
   <%= f.input :id, :collection => @free_users, label_method: :name, value_method: :id, label: "Participante", include_blank: "Escolha o Participante" %>
-  <%= f.button :submit, 'Adicionar' %>
+  <%= f.button :submit, 'Adicionar', class: "success" %>
 <% end %>
 
 <ul>

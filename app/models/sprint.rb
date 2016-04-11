@@ -56,6 +56,14 @@ class Sprint < ActiveRecord::Base
     self.activities.where(status: ProgressActivityStatus::DONE)
   end
 
+  def status_number
+    "#{done_activities.count}/#{self.activities.count}, #{self.status_percent.to_i}%" if activities.present?
+  end
+
+  def status_percent
+    done_activities.count.to_f / self.activities.count.to_f * 100
+  end
+
 private
   def increment_number
     maximum = self.project.sprints.maximum(:number)

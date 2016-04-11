@@ -3,6 +3,7 @@ class StartActivityController < ApplicationController
 
   def index
     if @activity.start_activity
+      @activity.create_historical HistoricalType::INITIATE, current_user
       redirect_to project_activity_path(@project, @activity), :flash => { :success => "Atividade Iniciada com Sucesso!" }
     else
       redirect_to project_activity_path(@project, @activity), :flash => { :error => "Você não pode iniciar esta Atividade! A Sprint não está em andamento." }

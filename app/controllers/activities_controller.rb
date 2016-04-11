@@ -25,6 +25,7 @@ class ActivitiesController < ApplicationController
       @activity = @sprint.activities.new(activity_params)
       @activity.project = @project
       @activity.status = ProgressActivityStatus::WAITING
+      @activity.create_historical HistoricalType::CREATED, current_user
     end
 
     if @activity.save
@@ -54,6 +55,6 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params
-      params.require(:activity).permit(:name, :description, :sprint_id)
+      params.require(:activity).permit(:name, :description, :estimate,:sprint_id)
     end
 end

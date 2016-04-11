@@ -1,6 +1,18 @@
-<h1>SPRINT #<%= @sprint.number %></h1>
+<h1>SPRINT #<%= @sprint.number %> - <%= " (#{ @sprint.status_number })" if @sprint.activities.present? %></h1>
 
-<p><%= @sprint.status_humanize %> <%= "(Atrasada)" if @sprint.late?%></p>
+<p><strong>DESCRIÇÃO: </strong><%= @sprint.description %></p>
+
+<p><strong>STATUS: </strong> <%= @sprint.status_humanize %> <%= "(Atrasada)" if @sprint.late?%> </p>
+
+<p><strong>PERÍODO: </strong> <%= @sprint.init_date.strftime("%d/%m/%Y") %> a <%= @sprint.end_date.strftime("%d/%m/%Y") %> </p>
+
+<% if @sprint.started_date %>
+  <p><strong>INICIADA EM: </strong> <%= @sprint.started_date.strftime("%d/%m/%Y") %> </p>
+<% end %>
+
+<% if @sprint.finished_date %>
+  <p><strong>FINALIZADA EM: </strong> <%= @sprint.finished_date.strftime("%d/%m/%Y") %> </p>
+<% end %>
 
 <% if @sprint.scheduled? and policy(Project).edit? %>
   <p><%= link_to 'Iniciar Sprint', project_sprint_start_sprint_index_path(@project, @sprint), class: "button" %></p>
@@ -34,7 +46,7 @@
        <table>
          <% @todo_activities.each do |activity| %>
            <tr ALIGN="CENTER">
-             <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+             <td><%= link_to "#{activity.name}(#{activity.estimate}min)", project_activity_path(@project, activity) %></td>
            </tr>
          <% end %>
        </table>
@@ -43,7 +55,7 @@
       <table>
         <% @doing_activities.each do |activity| %>
           <tr ALIGN="CENTER">
-            <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+            <td><%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_doing_duration activity})", project_activity_path(@project, activity) %></td>
           </tr>
         <% end %>
       </table>
@@ -52,7 +64,7 @@
         <table>
           <% @done_activities.each do |activity| %>
         <tr ALIGN="CENTER">
-          <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+          <td><%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_duration activity})", project_activity_path(@project, activity) %></td>
         </tr>
       <% end %>
         </table>

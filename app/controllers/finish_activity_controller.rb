@@ -3,6 +3,7 @@ class FinishActivityController < ApplicationController
 
   def index
     if @activity.finish_activity
+      @activity.create_historical HistoricalType::FINISHED, current_user
       redirect_to project_activity_path(@project, @activity), :flash => { :success => "Atividade Finalizada com Sucesso!" }
     else
       redirect_to project_activity_path(@project, @activity), :flash => { :error => "Você não pode iniciar esta Atividade! A Sprint não está em andamento." }
