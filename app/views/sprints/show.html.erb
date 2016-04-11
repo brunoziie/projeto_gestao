@@ -18,38 +18,45 @@
   <p><%= link_to 'Criar Atividade', new_project_activity_path(@project, sprint_id: @sprint.id), class: "button" %></p>
 <% end %>
 
-<h2>Atividades</h2>
 
-  <div class="grid-block">
-    <table>
-      <tr>
-        <th>TO DO</th>
-      </tr>
-      <% @todo_activities.each do |activity| %>
-        <tr>
+<TABLE BORDER="3" WIDTH="50%" CELLPADDING="4" CELLSPACING="3">
+   <TR>
+      <TH COLSPAN="3"><BR><H2>ATIVIDADES</H2>
+      </TH>
+   </TR>
+   <TR>
+      <TH>TO DO</TH>
+      <TH>DOING</TH>
+      <TH>DONE</TH>
+   </TR>
+   <TR ALIGN="CENTER">
+     <td>
+       <table>
+         <% @todo_activities.each do |activity| %>
+           <tr ALIGN="CENTER">
+             <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+           </tr>
+         <% end %>
+       </table>
+    </td>
+    <td>
+      <table>
+        <% @doing_activities.each do |activity| %>
+          <tr ALIGN="CENTER">
+            <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
+          </tr>
+        <% end %>
+      </table>
+    </td>
+      <td>
+        <table>
+          <% @done_activities.each do |activity| %>
+        <tr ALIGN="CENTER">
           <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
         </tr>
       <% end %>
-    </table>
-  </div>
-  <div id="main" class="grid-block">
-    <table>
-      <th>DOING</th>
-      <% @doing_activities.each do |activity| %>
-        <tr>
-          <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
-  <div id="main" class="grid-block">
-    <table>
-      <th>DONE</th>
-      <% @done_activities.each do |activity| %>
-        <tr>
-          <td><%= link_to activity.name, project_activity_path(@project, activity) %></td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
+        </table>
+      </td>
 
+   </TR>
+</TABLE>
