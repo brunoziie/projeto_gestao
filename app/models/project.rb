@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
   has_many :sprints, dependent: :destroy
   has_many :activities, dependent: :destroy
 
-  has_many :participations
+  has_many :participations, dependent: :destroy
   has_many :users, through: :participations
 
   def backlog_activities

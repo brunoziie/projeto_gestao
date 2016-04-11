@@ -1,4 +1,4 @@
-<h1>SPRINT #<%= @sprint.number %> - <%= " (#{ @sprint.status_number })" if @sprint.activities.present? %></h1>
+<h1>SPRINT #<%= @sprint.number %> <%= " - (#{ @sprint.status_number })" if @sprint.activities.present? %></h1>
 
 <p><strong>DESCRIÇÃO: </strong><%= @sprint.description %></p>
 
@@ -23,7 +23,7 @@
 <% end %>
 
 <% if policy(Project).edit? %>
-  <p><%= link_to 'Apagar Sprint', project_sprint_path(@project, @sprint), method: :delete, data: { confirm: "Você tem Certeza?"}, class: "button" %></p>
+  <p><%= link_to 'Apagar Sprint', project_sprint_path(@project, @sprint), method: :delete, data: { confirm: "Você tem Certeza?"}, class: "button alert" %></p>
 <% end %>
 
 <% if policy(Project).edit? %>
