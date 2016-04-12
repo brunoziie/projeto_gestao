@@ -42,6 +42,9 @@ class ActivitiesController < ApplicationController
     load_project
 
     @activity = Activity.find(params[:id])
+    @comment = Comment.new
+
+    authorize @project
   end
 
  private
@@ -58,3 +61,4 @@ class ActivitiesController < ApplicationController
       params.require(:activity).permit(:name, :description, :estimate,:sprint_id)
     end
 end
+

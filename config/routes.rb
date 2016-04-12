@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :activities do
       resources :start_activity, only: :index
       resources :finish_activity, only: :index
+      resources :create_comments, only: :create
     end
 
     resources :participations

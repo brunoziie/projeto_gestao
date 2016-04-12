@@ -6,6 +6,7 @@ class Activity < ActiveRecord::Base
   belongs_to :project
 
   has_many :historicals, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :name, :description, :estimate, presence: true
 

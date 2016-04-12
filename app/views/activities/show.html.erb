@@ -25,9 +25,24 @@
   <%= link_to 'Finalizar Atividade', project_activity_finish_activity_index_path(@project, @activity), class: "button"%>
 <% end %>
 
+<h3>Histórico</h3>
 <ul>
-
   <% @activity.historicals.each do |histotical| %>
     <li><%= historical_helper histotical%></li>
   <% end %>
 </ul>
+
+<h3>Comentários</h3>
+<ul>
+  <% @activity.comments.each do |comment| %>
+    <li>
+      <p><strong><%= comment.content %></strong></br>
+      [<%= comment.created_at.strftime("%d/%m/%Y %H:%M") %>] <%= comment.user.name %></p>
+    </li>
+  <% end %>
+</ul>
+
+<%= simple_form_for @comment, url: project_activity_create_comments_path(@project, @activity), method: :post do |f| %>
+  <%= f.input :content, label: 'Escreva seu comentário...' %>
+  <%= f.button :submit, 'Comentar', class: "success" %>
+<% end %>

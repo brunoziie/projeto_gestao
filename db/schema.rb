@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411195511) do
+ActiveRecord::Schema.define(version: 20160412185443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20160411195511) do
   add_index "activities", ["project_id"], name: "index_activities_on_project_id", using: :btree
   add_index "activities", ["sprint_id"], name: "index_activities_on_sprint_id", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "activity_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "comments", ["activity_id"], name: "index_comments_on_activity_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "historicals", force: :cascade do |t|
     t.integer  "historic_type"
@@ -101,6 +112,8 @@ ActiveRecord::Schema.define(version: 20160411195511) do
   add_foreign_key "activities", "projects"
   add_foreign_key "activities", "sprints"
   add_foreign_key "activities", "users"
+  add_foreign_key "comments", "activities"
+  add_foreign_key "comments", "users"
   add_foreign_key "historicals", "activities"
   add_foreign_key "historicals", "users"
   add_foreign_key "participations", "projects"
