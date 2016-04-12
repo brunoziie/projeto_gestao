@@ -6,7 +6,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def create?
-    @user.manager?
+    @user.manager? or @user.projects.include?(record)
   end
 
   def update?
