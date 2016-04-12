@@ -21,6 +21,9 @@
       <li><%= link_to 'Sair', destroy_user_session_path, method: :delete %></li>
     </ul>
 
+    <ul>
+      <%= render_breadcrumbs :separator => ' > ' %>
+    </ul>
     <%= yield %>
   </body>
 </html>

@@ -3,12 +3,22 @@ class ActivitiesController < ApplicationController
   def index
     load_project
 
+    add_breadcrumb @project.name, "/projects/#{@project.id}"
+
     @activities = @project.backlog_activities
   end
 
   def new
     load_sprints
+
     @activity = Activity.new(sprint_id: params[:sprint_id])
+
+    add_breadcrumb @project.name, "/projects/#{@project.id}"
+    if params[:sprint_id].blank?
+      add_breadcrumb "Atividades em Backlog", "/projects/#{@project.id}/activities"
+    else
+      add_breadcrumb "SPRINT ##{@activity.sprint.number}", "/projects/#{@project.id}/sprints/#{@activity.sprint.id}"
+    end
 
     authorize @project
   end
@@ -43,6 +53,9 @@ class ActivitiesController < ApplicationController
 
     @activity = Activity.find(params[:id])
     @comment = Comment.new
+
+    add_breadcrumb @project.name, "/projects/#{@project.id}"
+    add_breadcrumb "SPRINT ##{@activity.sprint.number}", "/projects/#{@project.id}/sprints/#{@activity.sprint.id}"
 
     authorize @project
   end

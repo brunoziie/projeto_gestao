@@ -10,6 +10,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+
     @sprints = @project.sprints.order(:number)
 
     authorize @project
@@ -34,6 +35,8 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb @project.name, "/projects/#{@project.id}"
+
     authorize @project
   end
 

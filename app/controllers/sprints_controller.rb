@@ -6,11 +6,15 @@ class SprintsController < ApplicationController
     @todo_activities = @sprint.todo_activities
     @doing_activities = @sprint.doing_activities
     @done_activities = @sprint.done_activities
+
+    add_breadcrumb @project.name, "/projects/#{@project.id}"
   end
 
   def new
     load_project
     @sprint = Sprint.new
+
+    add_breadcrumb @project.name, "/projects/#{@project.id}"
 
     authorize @project
   end

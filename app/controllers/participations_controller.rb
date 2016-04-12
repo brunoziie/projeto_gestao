@@ -4,6 +4,8 @@ class ParticipationsController < ApplicationController
   def index
     @free_users = @project.free_users - [current_user]
 
+    add_breadcrumb @project.name, "/projects/#{@project.id}"
+
     authorize @project
   end
 

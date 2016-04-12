@@ -53,6 +53,7 @@ GEM
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    breadcrumbs_on_rails (2.3.1)
     builder (3.2.2)
     byebug (8.2.2)
     coffee-rails (4.1.1)
@@ -205,6 +206,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  breadcrumbs_on_rails
   byebug
   coffee-rails (~> 4.1.0)
   devise
