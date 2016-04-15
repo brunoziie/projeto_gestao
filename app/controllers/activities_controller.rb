@@ -53,6 +53,7 @@ class ActivitiesController < ApplicationController
 
     @activity = Activity.find(params[:id])
     @comment = Comment.new
+    @historicals = @activity.historicals.order(:timetable)
 
     add_breadcrumb @project.name, "/projects/#{@project.id}"
     add_breadcrumb "SPRINT ##{@activity.sprint.number}", "/projects/#{@project.id}/sprints/#{@activity.sprint.id}"
