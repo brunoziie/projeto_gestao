@@ -31,5 +31,15 @@ namespace :migration_times do
     end
   end
 
+  task :created_time => :environment do
+    Historical.where(timetable: nil).each do |hist|
+      act = hist.activity
+
+      hist.timetable = act.created_at
+
+      hist.save
+    end
+  end
+
 
 end
