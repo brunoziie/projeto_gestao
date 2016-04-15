@@ -21,4 +21,15 @@ namespace :migration_times do
     end
   end
 
+  task :create_time => :environment do
+    Activity.where.not(init_time: nil).each do |act|
+      historical = act.historicals.find_by(historic_type: HistoricalType::CREATED)
+      historical.timetable = act.created_at
+
+      historical.save
+      puts historical.timetable
+    end
+  end
+
+
 end
