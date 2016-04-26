@@ -25,6 +25,14 @@
   <%= link_to 'Finalizar Atividade', project_activity_finish_activity_index_path(@project, @activity), class: "button"%>
 <% end %>
 
+<% if @activity.doing? and @activity.sprint.doing? %>
+  <%= link_to 'Pausar Atividade', project_activity_pause_activity_index_path(@project, @activity), class: "button" %>
+<% end %>
+
+<% if @activity.paused? and @activity.sprint.doing? %>
+  <%= link_to 'Reiniciar Atividade', project_activity_restart_activity_index_path(@project, @activity), class: "button" %>
+<% end %>
+
 <h3>Histórico</h3>
 <ul>
   <% @historicals.each do |histotical| %>

@@ -49,7 +49,7 @@ class Sprint < ActiveRecord::Base
   end
 
   def doing_activities
-    self.activities.where(status: ProgressActivityStatus::DOING)
+    self.activities.where(status: [ProgressActivityStatus::DOING, ProgressActivityStatus::PAUSED ])
   end
 
   def done_activities

@@ -55,7 +55,7 @@
       <table>
         <% @doing_activities.each do |activity| %>
           <tr ALIGN="CENTER">
-            <td><%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_doing_duration activity})", project_activity_path(@project, activity) %></td>
+            <td><%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_doing_duration activity}) #{'[PAUSE]' if activity.paused?}", project_activity_path(@project, activity) %></td>
           </tr>
         <% end %>
       </table>
