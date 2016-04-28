@@ -56,7 +56,7 @@ class ActivitiesController < ApplicationController
     @historicals = @activity.historicals.order(:timetable)
 
     add_breadcrumb @project.name, "/projects/#{@project.id}"
-    add_breadcrumb "SPRINT ##{@activity.sprint.number}", "/projects/#{@project.id}/sprints/#{@activity.sprint.id}"
+    add_breadcrumb "SPRINT ##{@activity.sprint.number}", "/projects/#{@project.id}/sprints/#{@activity.sprint.id}" unless @activity.sprint.blank?
 
     authorize @project
   end
