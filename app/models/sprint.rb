@@ -71,9 +71,7 @@ class Sprint < ActiveRecord::Base
       milli += (activity.finished_date - activity.initiate_date) - (activity.paused_time)
     end
 
-    parse_string = (milli < 3600 ? '%M:%S' : '%H:%M:%S')
-
-    Time.at(milli).utc.strftime(parse_string)
+    pretty_time(milli)
   end
 
   def calculate_estimate_time
@@ -82,7 +80,7 @@ class Sprint < ActiveRecord::Base
       minutes += activity.estimate
     end
 
-    hms(minutes*60)
+    pretty_time(minutes*60)
   end
 
 private
@@ -92,6 +90,13 @@ private
     hms   = [int / 3600, (int / 60) % 60, int % 60].map { |t| t.to_s.rjust(2,'0') }.join(':')
     hms  << (seconds - int).round(decs).to_s if decs > 0
     hms
+  end
+
+  def pretty_time seconds
+    mm, ss = seconds.divmod(60)            #=> [4515, 21]
+    hh, mm = mm.divmod(60)           #=> [75, 15]
+    dd, hh = hh.divmod(24)           #=> [3, 3]
+    "%d dia, %d:%d:%d" % [dd, hh, mm, ss]
   end
 
   def increment_number
