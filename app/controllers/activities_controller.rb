@@ -40,7 +40,7 @@ class ActivitiesController < ApplicationController
 
     if @activity.save
       flash[:success] = "Atividade Criada com Sucesso!"
-      redirect_to [@project, @activity]
+      redirect_to [@project, @sprint]
     else
       render 'new'
     end
