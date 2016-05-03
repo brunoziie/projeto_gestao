@@ -6,6 +6,9 @@
 
 <p><strong>PERÍODO: </strong> <%= @sprint.init_date.strftime("%d/%m/%Y") %> a <%= @sprint.end_date.strftime("%d/%m/%Y") %> </p>
 
+<p><strong>TEMPO PREVISTO: </strong> <%= @sprint.calculate_estimate_time %></p>
+<p><strong>TEMPO EXECUTADO: </strong><%= @sprint.calculate_time%></p>
+
 <% if @sprint.started_date %>
   <p><strong>INICIADA EM: </strong> <%= @sprint.started_date.strftime("%d/%m/%Y") %> </p>
 <% end %>

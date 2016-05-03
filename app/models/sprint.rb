@@ -64,7 +64,36 @@ class Sprint < ActiveRecord::Base
     done_activities.count.to_f / self.activities.count.to_f * 100
   end
 
+  def calculate_time
+    milli = 0
+
+    self.activities.where(status: ProgressActivityStatus::DONE).each do |activity|
+      milli += (activity.finished_date - activity.initiate_date) - (activity.paused_time)
+    end
+
+    parse_string = (milli < 3600 ? '%M:%S' : '%H:%M:%S')
+
+    Time.at(milli).utc.strftime(parse_string)
+  end
+
+  def calculate_estimate_time
+    minutes = 0
+    self.activities.each do |activity|
+      minutes += activity.estimate
+    end
+
+    hms(minutes*60)
+  end
+
 private
+  def hms(seconds, decimals = 0)
+    int   = seconds.floor
+    decs  = [decimals, 8].min
+    hms   = [int / 3600, (int / 60) % 60, int % 60].map { |t| t.to_s.rjust(2,'0') }.join(':')
+    hms  << (seconds - int).round(decs).to_s if decs > 0
+    hms
+  end
+
   def increment_number
     maximum = self.project.sprints.maximum(:number)
       maximum.nil? ? self.number = 1 : self.number = (maximum += 1)

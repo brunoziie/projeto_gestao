@@ -90,5 +90,6 @@ class Activity < ActiveRecord::Base
   def last_pause
     self.historicals.where(historic_type: HistoricalType::PAUSED).order(:created_at).last.timetable
   end
+
 end
 
