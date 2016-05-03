@@ -96,7 +96,7 @@ private
     mm, ss = seconds.divmod(60)            #=> [4515, 21]
     hh, mm = mm.divmod(60)           #=> [75, 15]
     dd, hh = hh.divmod(24)           #=> [3, 3]
-    "'%d dia(s),' %d hora(s), %d minuto(s) e %d segundo(s)" % [dd, hh, mm, ss]
+    "%d dia(s), %d hora(s), %d minuto(s) e %d segundo(s)" % [dd, hh, mm, ss]
   end
 
   def increment_number
