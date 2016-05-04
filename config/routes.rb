@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       resources :pause_activity, only: :index
       resources :restart_activity, only: :index
       resources :create_comments, only: :create
+      resources :transfers_activity_to_sprints, only: [:create, :new]
+
     end
 
     resources :participations

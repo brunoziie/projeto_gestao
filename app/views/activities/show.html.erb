@@ -17,6 +17,10 @@
   <p><strong>RESPONSÁVEL: </strong> <%= @activity.user.name %></p>
 <% end %>
 
+<% if policy(Project).edit? && !@activity.done? %>
+  <%= link_to 'Transferir de Sprint', new_project_activity_transfers_activity_to_sprint_path(@project, @activity), class: "button" %>
+<% end %>
+
 <% if @activity.waiting? and @activity.sprint.doing? %>
   <%= link_to 'Iniciar Atividade', project_activity_start_activity_index_path(@project, @activity), class: "button" %>
 <% end %>

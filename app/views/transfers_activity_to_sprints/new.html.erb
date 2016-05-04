@@ -1,0 +1,9 @@
+<h1>Mover Atividade para Sprint</h1>
+<%= simple_form_for :activity, url: project_activity_transfers_activity_to_sprints_path, method: :post do |f| %>
+  <%= f.input :sprint_id, :collection => @sprints, label_method: :sprint_name, value_method: :id, label: "Sprint", include_blank: "Escolha a sprint" %>
+
+  <h2>Atividade</h2>
+  <p><strong>Nome:</strong> <%= @activity.name %></p>
+  <p><strong>Descrição: </strong> <%= @activity.description %></p>
+  <%= f.button :submit, class: "success" %>
+<% end %>

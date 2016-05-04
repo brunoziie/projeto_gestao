@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415145744) do
+ActiveRecord::Schema.define(version: 20160426194552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,17 @@ ActiveRecord::Schema.define(version: 20160415145744) do
 
   add_index "historicals", ["activity_id"], name: "index_historicals_on_activity_id", using: :btree
   add_index "historicals", ["user_id"], name: "index_historicals_on_user_id", using: :btree
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "read",       default: 0
+    t.integer  "comment_id"
+    t.integer  "user_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "notifications", ["comment_id"], name: "index_notifications_on_comment_id", using: :btree
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "participations", force: :cascade do |t|
     t.integer  "user_id"
@@ -117,6 +128,8 @@ ActiveRecord::Schema.define(version: 20160415145744) do
   add_foreign_key "comments", "users"
   add_foreign_key "historicals", "activities"
   add_foreign_key "historicals", "users"
+  add_foreign_key "notifications", "comments"
+  add_foreign_key "notifications", "users"
   add_foreign_key "participations", "projects"
   add_foreign_key "participations", "users"
   add_foreign_key "sprints", "projects"
