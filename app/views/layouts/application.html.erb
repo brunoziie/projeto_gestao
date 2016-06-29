@@ -1,29 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= content_for?(:title) ? yield(:title) : "Agência Hacker - SCRUM" %></title>
-
-    <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag  "application" %>
+    <%= yield :stylesheet_includes %>
   </head>
 
-  <body>
-    <% flash.each do |key, value| %>
-      <%= content_tag :div, value, class: "flash #{key}" %>
-    <% end %>
+  <body class="nav-md menu_fixed">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="index.html" class="site_title">
+                <i class="fa fa-bullseye"></i> <span>SCRUM</span>
+              </a>
+            </div>
 
-    <ul class="menu">
-      <li><%= link_to 'Projetos', root_path %></li>
-      <li><%= link_to 'Sair', destroy_user_session_path, method: :delete %></li>
-    </ul>
+            <div class="clearfix"></div>
 
-    <ul>
-      <%= render_breadcrumbs :separator => ' > ' %>
-    </ul>
-    <%= yield %>
+            <!-- menu profile quick info -->
+            <div class="profile">
+              <div class="profile_pic">
+                <img src="<%= image_path('user.png') %>" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2>John Doe</h2>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <%= render :partial => "partials/menu" %>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <%= render :partial => "partials/footer_menu" %>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <%= render :partial => "partials/top_nav" %>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+<!--           <ul class="breadcrumbs">
+            <%= render_breadcrumbs :separator => ' > ' %>
+          </ul> -->
+
+          <%= yield %>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <%= javascript_include_tag "application" %>
+    <%= yield :javascript_includes %>
   </body>
 </html>
+

@@ -1,8 +1,42 @@
-<%= simple_form_for [@project, @activity] do |f| %>
-  <%= f.input :sprint_id, :collection => @sprints, label_method: :sprint_name, value_method: :id, label: "Sprint", include_blank: "Atividade em Backlog" %>
-    <%= f.input :name, placeholder: "Nome da Atividade" %>
-    <%= f.input :description, placeholder: "Descrição da Atividade" %>
-    <%= f.input :estimate, placeholder: "Estimativa em minutos" %>
-    <%= f.button :submit, class: "success" %>
-<% end %>
+<%= simple_form_for [@project, @activity], html: {class: 'form-horizontal form-label-left'} do |f| %>
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Sprint <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <%= f.input :sprint_id, :collection => @sprints, label_method: :sprint_name, value_method: :id, label: false, include_blank: "Backlog activity", input_html: {class: 'form-control'} %>
+    </div>
+  </div>  
 
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Title <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <%= f.input :name, label: false, input_html: {class: 'form-control'} %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Description <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <%= f.text_area :description, label: false, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Estimative <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <%= f.input :estimate, label: false, as: :integer, placeholder: "in minutes", input_html: {class: 'form-control'} %>
+    </div>
+  </div>
+
+
+  <div class="ln_solid"></div>
+  <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+      <a href="javascript:history.back();" class="btn btn-primary">Cancel</a>
+      <button type="submit" class="btn btn-success">Save</button>
+    </div>
+  </div>
+<% end %>

@@ -1,41 +1,145 @@
-<h1><%= @activity.name %> </h1>
+<div class="">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Activity details</h3>
+    </div>
+  </div>
+  
+  <div class="clearfix"></div>
 
-<p><strong>ESTIMATIVA: </strong> <%= @activity.estimate %>min</p>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><%= @activity.name %></h2>
+          <ul class="nav navbar-right app-actions">
 
-<% if @activity.doing? %>
-  <p><strong>DURAÇÃO: </strong><%= pretty_doing_duration @activity %></p>
-<% elsif @activity.done?%>
-  <p><strong>DURAÇÃO: </strong><%= pretty_duration @activity %></p>
-<% end %>
+            <% if policy(Project).edit? %>
+              <li>
+                <%= link_to edit_project_path(@project), class: 'btn btn-sm btn-default' do %>
+                  <i class="fa fa-edit"></i> Edit </a>
+                <% end %>
+              </li>
+            <% end %>
 
-<p><strong>DESCRIÇÃO: </strong> <%= @activity.description %></p>
+            <% if policy(Project).destroy? %>
+              <li>
+                <%= link_to project_path(@project), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-sm btn-danger' do %>
+                  <i class="fa fa-trash"></i> Delete 
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
 
-<p><strong>STATUS: </strong> <%= @activity.status_humanize %></p>
+        <div class="x_content">
+
+          <div class="col-md-9 col-sm-0 col-xs-12">
+
+            <ul class="stats-overview">
+              <li>
+                <%= link_to project_participations_path(@project) do %>
+                  <span class="name"> Estimative </span>
+                  <span class="value text-info"><%= @activity.estimate %> minutes</span>
+                <% end %>
+              </li>
+              <li>
+                <span class="name"> Duration </span>
+                <span class="value text-info">
+                  <% if @activity.doing? %>
+                    <%= pretty_doing_duration @activity %>
+                  <% elsif @activity.done?%>
+                    <%= pretty_duration @activity %>
+                  <% end %>
+                </span>
+              </li>
+              <li class="hidden-phone">
+                <%= link_to project_activities_path(@project) do %>
+                  <span class="name"> Status </span>
+                  <span class="value text-info"><%= @activity.status_humanize %></span>
+                <% end %>
+              </li>
+            </ul>
+            
+            <div class="description">
+              <strong>Description</strong><br>
+              <p><%= @activity.description %></p>
+            </div>
+
+            <div class="activity-actions">
+              <% if policy(Project).edit? && !@activity.done? %>
+                <%= link_to new_project_activity_transfers_activity_to_sprint_path(@project, @activity), class: "btn btn-default" do %>
+                  <i class="fa fa-retweet"></i> Transfer sprint
+                <% end %>
+              <% end %>
+
+              <% if @activity.waiting? and @activity.sprint.doing? %>
+                <%= link_to project_activity_start_activity_index_path(@project, @activity), class: "btn btn-success" do %>
+                  <i class="fa fa-play"></i> Start
+                <% end %>
+              <% end %>
+
+              <% if @activity.doing? and @activity.sprint.doing? %>
+                <%= link_to project_activity_finish_activity_index_path(@project, @activity), class: "btn btn-default" do %>
+                  <i class="fa fa-stop"></i> Finish
+                <% end %>
+              <% end %>
+
+              <% if @activity.doing? and @activity.sprint.doing? %>
+                <%= link_to project_activity_pause_activity_index_path(@project, @activity), class: "btn btn-warning" do %>
+                  <i class="fa fa-pause"></i> Pause
+                <% end %>
+              <% end %>
+
+              <% if @activity.paused? and @activity.sprint.doing? %>
+                <%= link_to project_activity_restart_activity_index_path(@project, @activity), class: "btn btn-success" do %>
+                  <i class="fa fa-play"></i> Restart
+                <% end %>
+              <% end %>
+            </div>
 
 
-<% unless @activity.user.blank? %>
-  <p><strong>RESPONSÁVEL: </strong> <%= @activity.user.name %></p>
-<% end %>
 
-<% if policy(Project).edit? && !@activity.done? %>
-  <%= link_to 'Transferir de Sprint', new_project_activity_transfers_activity_to_sprint_path(@project, @activity), class: "button" %>
-<% end %>
 
-<% if @activity.waiting? and @activity.sprint.doing? %>
-  <%= link_to 'Iniciar Atividade', project_activity_start_activity_index_path(@project, @activity), class: "button" %>
-<% end %>
 
-<% if @activity.doing? and @activity.sprint.doing? %>
-  <%= link_to 'Finalizar Atividade', project_activity_finish_activity_index_path(@project, @activity), class: "button"%>
-<% end %>
+          </div>
 
-<% if @activity.doing? and @activity.sprint.doing? %>
-  <%= link_to 'Pausar Atividade', project_activity_pause_activity_index_path(@project, @activity), class: "button" %>
-<% end %>
+          <!-- start project-detail sidebar -->
+          <div class="col-md-3 col-sm-3 col-xs-12">
 
-<% if @activity.paused? and @activity.sprint.doing? %>
-  <%= link_to 'Reiniciar Atividade', project_activity_restart_activity_index_path(@project, @activity), class: "button" %>
-<% end %>
+            <section class="panel">
+
+              <div class="x_title">
+                <h2>Assignment</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+
+                <% unless @activity.user.blank? %>
+                  <div class="project_detail">
+                    <p>
+                      <img src="<%= image_path('user.png') %>" class="avatar  team-avatar" alt="<%= @activity.user.name %>" title="<%= @activity.user.name %>">
+                    </p>
+                  </div>
+                <% else %>
+                  <p>none</p>
+                <% end %>
+
+              </div>
+            </section>
+
+          </div>
+          <!-- end project-detail sidebar -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <h3>Histórico</h3>
 <ul>

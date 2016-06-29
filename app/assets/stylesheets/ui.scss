@@ -1,0 +1,18 @@
+.nav {
+  &.navbar-right {
+    &.app-actions {
+      li {
+        display: inline-block !important;
+      }
+      a {
+        padding:  5px 10px !important;
+      }
+    }
+  }
+}
+
+.team-avatar {
+  float: none!important;
+  margin: 5px 5px 5px 0;
+  display: inline-block;
+}

@@ -1,77 +1,168 @@
-<h1>SPRINT #<%= @sprint.number %> <%= " - (#{ @sprint.status_number })" if @sprint.activities.present? %></h1>
+<div class="">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Sprints</h3>
+    </div>
 
-<p><strong>DESCRIÇÃO: </strong><%= @sprint.description %></p>
+    <div class="title_right">
+      <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Go!</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<p><strong>STATUS: </strong> <%= @sprint.status_humanize %> <%= "(Atrasada)" if @sprint.late?%> </p>
+  <div class="clearfix"></div>
 
-<p><strong>PERÍODO: </strong> <%= @sprint.init_date.strftime("%d/%m/%Y") %> a <%= @sprint.end_date.strftime("%d/%m/%Y") %> </p>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Sprint #<%= @sprint.number %></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <ul class="stats-overview col-4">
+            <li>
+              <span class="name"> Project </span>
+              <span class="value text-info"> <%= @project.name %> </span>
+            </li>
+            <li>
+              <span class="name"> Status </span>
+              <span class="value text-info">
+                <%= @sprint.status_humanize %>
 
-<p><strong>TEMPO ESTIMADO: </strong> <%= @sprint.calculate_estimate_time %></p>
-<p><strong>TEMPO EXECUTADO: </strong><%= @sprint.calculate_time%></p>
+                <% if @sprint.late? %>
+                  <span class="label label-danger">overdue</span>
+                <% end %>
+              </span>
+            </li>
+            <li>
+              <span class="name"> Estimated</span>
+              <span class="value text-info"> <%= @sprint.calculate_estimate_time %></span>
+            </li>
+            <li>
+              <span class="name"> Started at </span>
+              <span class="value text-info"> <%= (@sprint.started_date) ? @sprint.started_date.strftime("%d/%m/%Y") : '---' %></span>
+            </li>
+          </ul>
 
-<% if @sprint.started_date %>
-  <p><strong>INICIADA EM: </strong> <%= @sprint.started_date.strftime("%d/%m/%Y") %> </p>
-<% end %>
+          <ul class="stats-overview col-4">
+            <li>
+              <span class="name"> Progress </span>
+              <span class="value text-info">
+                <%= (@sprint.activities.present?) ? "#{ @sprint.status_number }" : '---'  %>
+              </span>
+            </li>
+            <li>
+              <span class="name"> Period </span>
+              <span class="value text-info"> <%= @sprint.init_date.strftime("%d/%m/%Y") %> - <%= @sprint.end_date.strftime("%d/%m/%Y") %> </span>
+            </li>
+            <li>
+              <span class="name">Executed</span>
+              <span class="value text-info"> <%= @sprint.calculate_time%></span>
+            </li>
+            <li>
+              <span class="name"> Finished at </span>
+              <span class="value text-info"> <%= (@sprint.finished_date) ? @sprint.finished_date.strftime("%d/%m/%Y") : '---' %> </span>
+            </li>
+          </ul>
 
-<% if @sprint.finished_date %>
-  <p><strong>FINALIZADA EM: </strong> <%= @sprint.finished_date.strftime("%d/%m/%Y") %> </p>
-<% end %>
+          <div class="actions">
+            <% if @sprint.scheduled? and policy(Project).edit? %>
+              <%= link_to project_sprint_start_sprint_index_path(@project, @sprint), class: "btn btn-success" do %>
+                <i class="fa fa-play"></i> Start sprint
+              <% end %>
+            <% end %>
 
-<% if @sprint.scheduled? and policy(Project).edit? %>
-  <p><%= link_to 'Iniciar Sprint', project_sprint_start_sprint_index_path(@project, @sprint), class: "button" %></p>
-<% end %>
+            <% if @sprint.doing? and policy(Project).edit? %>
+              <%= link_to project_sprint_finish_sprint_index_path(@project, @sprint), class: "btn btn-default" do %>
+                <i class="fa fa-stop"></i> Finish sprint
+              <% end %>
+            <% end %>
 
-<% if @sprint.doing? and policy(Project).edit? %>
-  <p><%= link_to 'Finalizar Sprint', project_sprint_finish_sprint_index_path(@project, @sprint), class: "button" %></p>
-<% end %>
+            <% if policy(Project).edit? %>
+              <%= link_to project_sprint_path(@project, @sprint), method: :delete, data: { confirm: "Você tem Certeza?"}, class: "btn btn-danger" do %>
+                <i class="fa fa-trash"></i> Delete sprint
+              <% end %>
+            <% end %>
 
-<% if policy(Project).edit? %>
-  <p><%= link_to 'Apagar Sprint', project_sprint_path(@project, @sprint), method: :delete, data: { confirm: "Você tem Certeza?"}, class: "button alert" %></p>
-<% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<% if policy(Project).edit? %>
-  <p><%= link_to 'Criar Atividade', new_project_activity_path(@project, sprint_id: @sprint.id), class: "button" %></p>
-<% end %>
+  <div class="clearfix"></div>
+  <div>
+    <% if policy(Project).edit? %>
+      <ul class="nav navbar-right app-actions">
+        <li>
+          <%= link_to new_project_activity_path(@project, sprint_id: @sprint.id), class: 'btn btn-default' do %>
+            <i class="fa fa-plus"></i> New activity
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+    <h3>Activities</h3>
+  </div>
+  <div class="clearfix"></div>
 
+  <div class="row">
+    <div class="col-md-4 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Todo</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <ul>
+            <% @todo_activities.each do |activity| %>
+              <li><%= link_to "#{activity.name}(#{activity.estimate}min)", project_activity_path(@project, activity) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-<TABLE BORDER="3" WIDTH="50%" CELLPADDING="4" CELLSPACING="3">
-   <TR>
-      <TH COLSPAN="3"><BR><H2>ATIVIDADES</H2>
-      </TH>
-   </TR>
-   <TR>
-      <TH>TO DO</TH>
-      <TH>DOING</TH>
-      <TH>DONE</TH>
-   </TR>
-   <TR ALIGN="CENTER">
-     <td>
-       <table>
-         <% @todo_activities.each do |activity| %>
-           <tr ALIGN="CENTER">
-             <td><%= link_to "#{activity.name}(#{activity.estimate}min)", project_activity_path(@project, activity) %></td>
-           </tr>
-         <% end %>
-       </table>
-    </td>
-    <td>
-      <table>
-        <% @doing_activities.each do |activity| %>
-          <tr ALIGN="CENTER">
-            <td><%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_doing_duration activity}) #{'[PAUSE]' if activity.paused?}", project_activity_path(@project, activity) %></td>
-          </tr>
-        <% end %>
-      </table>
-    </td>
-      <td>
-        <table>
-          <% @done_activities.each do |activity| %>
-        <tr ALIGN="CENTER">
-          <td><%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_duration activity})", project_activity_path(@project, activity) %></td>
-        </tr>
-      <% end %>
-        </table>
-      </td>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Doing</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <ul>
+            <% @doing_activities.each do |activity| %>
+              <li>
+                <%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_doing_duration activity}) #{'[PAUSE]' if activity.paused?}", project_activity_path(@project, activity) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-   </TR>
-</TABLE>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Done</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <ul>
+            <% @done_activities.each do |activity| %>
+              <li>
+                <%= link_to "#{activity.name}(#{activity.estimate}min - #{pretty_duration activity})", project_activity_path(@project, activity) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

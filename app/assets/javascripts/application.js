@@ -10,10 +10,14 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require foundation
+//= require jquery/dist/jquery.min
+//= require bootstrap/dist/js/bootstrap.min
+//= require bootstrap-progressbar/bootstrap-progressbar.min
+//= require fastclick/lib/fastclick
+//= require nprogress/nprogress
+//= require Chart.js/dist/Chart.min
+//= require jquery-sparkline/dist/jquery.sparkline.min
+//= require gentelella/js/custom.min
 //= require turbolinks
+//= require jquery_ujs
 //= require_tree .
-
-$(function(){ $(document).foundation(); });

@@ -1,29 +1,160 @@
-<h1><%= @project.name %></h1>
-<p><%= @project.description %></p>
+<div class="">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Project details</h3>
+    </div>
+  </div>
+  
+  <div class="clearfix"></div>
 
-<% if policy(Project).edit? %>
-  <p><%= link_to 'Participantes', project_participations_path(@project), class: "button" %></p>
-<% end %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><%= @project.name %></h2>
+          <ul class="nav navbar-right app-actions">
 
-<% if policy(Project).edit? %>
-  <p><%= link_to 'Atividades em Backlog', project_activities_path(@project), class: "button" %></p>
-<% end %>
+            <% if policy(Project).edit? %>
+              <li>
+                <%= link_to edit_project_path(@project), class: 'btn btn-sm btn-default' do %>
+                  <i class="fa fa-edit"></i> Edit </a>
+                <% end %>
+              </li>
+            <% end %>
 
-<% if policy(Project).edit? %>
-  <p><%= link_to 'Editar Projeto', edit_project_path(@project), class: "button"  %></p>
-<% end %>
+            <% if policy(Project).destroy? %>
+              <li>
+                <%= link_to project_path(@project), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-sm btn-danger' do %>
+                  <i class="fa fa-trash"></i> Delete 
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
 
-<% if policy(Project).destroy? %>
-  <p><%= link_to 'Apagar Projeto', project_path(@project), method: :delete, data: { confirm: "Are you sure?"}, class: "button alert"  %></p>
-<% end %>
+        <div class="x_content">
 
-<h2>Sprints:</h2>
-<% @sprints.each do |sprint| %>
-  <ul>
-    <li><%= link_to "SPRINT ##{sprint.number.to_s} - #{sprint.status_number}", project_sprint_path(project_id: @project, id: sprint.id) %> -> (<%= sprint.init_date.strftime("%d/%m/%Y") %> a <%= sprint.end_date.strftime("%d/%m/%Y") %>) -> <%= sprint.status_humanize %> <%= "ATRASADA" if sprint.late?  %> </li>
-  </ul>
-<% end %>
+          <div class="col-md-9 col-sm-9 col-xs-12">
 
-<% if policy(Project).edit? %>
-  <%= link_to 'Criar Sprint', new_project_sprint_path(@project), class: "button"  %>
-<% end %>
+            <ul class="stats-overview">
+              <% if policy(Project).edit? %>
+                <li>
+                  <%= link_to project_participations_path(@project) do %>
+                    <span class="name"> Participants </span>
+                    <span class="value text-success"><%= @project.participations.count %></span>
+                  <% end %>
+                </li>
+              <% end %>
+              <li>
+                <span class="name"> Sprints </span>
+                <span class="value text-success"><%= @project.sprints.count %></span>
+              </li>
+              <% if policy(Project).edit? %>
+                <li class="hidden-phone">
+                  <%= link_to project_activities_path(@project) do %>
+                    <span class="name"> Backlog activities </span>
+                    <span class="value text-success"><%= @project.backlog_activities.count %></span>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+            <br>
+
+            <div>
+              <div class="x_title">
+                <ul class="nav navbar-right app-actions">
+                  <% if policy(Project).edit? %>
+                    <li>
+                      <%= link_to new_project_sprint_path(@project), class: 'btn btn-sm btn-default' do %>
+                        <i class="fa fa-plus"></i> Create sprint
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+
+                <h2>Sprints</h2>
+
+                <div class="clearfix"></div>
+              </div>
+
+
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Progress</th>
+                    <th></th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @sprints.each do |sprint| %>
+                    <tr>
+                      <th scope="row"><%= sprint.number.to_s %></th>
+                      <td><%= sprint.init_date.strftime("%Y-%m-%d") %></td>
+                      <td><%= sprint.end_date.strftime("%Y-%m-%d") %></td>
+                      <td class="project_progress">
+                        <div class="progress progress_sm">
+                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="<%= sprint.status_percent %>" aria-valuenow="<%= sprint.status_percent %>" style="width: <%= sprint.status_percent %>%;"></div>
+                        </div>
+                      </td>
+                      <td><%= sprint.status_number %></td>
+                      <td>
+                        <% if sprint.late? %>
+                          <span class="label label-danger">overdue</span>
+                        <% else %>
+                          <span class="label label-success">due</span>
+                        <% end %>
+                      </td>
+                      <td>
+                        <%= link_to project_sprint_path(project_id: @project, id: sprint.id), class: 'btn btn-primary btn-xs' do %>
+                          <i class="fa fa-eye"></i> View
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          <!-- start project-detail sidebar -->
+          <div class="col-md-3 col-sm-3 col-xs-12">
+
+            <section class="panel">
+
+              <div class="x_title">
+                <h2>Project Description</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <p>
+                  <%= @project.description %>
+                </p>
+                <br>
+
+                <div class="project_detail">
+                  <p class="title">Participants</p>
+                  <p>
+                    <% @project.participations.each do |member| %>
+                      <img src="<%= image_path('user.png') %>" class="avatar  team-avatar" alt="<%= member.user.name %>" title="<%= member.user.name %>">
+                    <% end %>
+                  </p>
+                </div>
+
+              </div>
+            </section>
+
+          </div>
+          <!-- end project-detail sidebar -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
